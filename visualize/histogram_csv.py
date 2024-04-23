@@ -200,14 +200,14 @@ def plot_histogram(data, ax):
 			model_idx = feature_idx + feature_idx_offset
 			feature_name = DATA_MODEL[model_idx]['name']
 			title = f"{house_name}: {feature_name}"
-			ax[house_idx][feature_idx].set_title(title)
+			ax[feature_idx].set_title(feature_name)
 
 			x_values = np.arange(len(feature_data))
 			y_values = feature_data
 			hist, bins = generate_historgram(y_values)
 			center = get_centers(bins)
 			width = 1 * (bins[1] - bins[0])
-			ax[house_idx][feature_idx].bar(center, hist, width=width, color=house_color)
+			ax[feature_idx].bar(center, hist, width=width, color=house_color, alpha=0.5)
 
 			print(f"{house_name}: {DATA_MODEL[model_idx]['name']}")	 
 
@@ -217,7 +217,7 @@ def main():
 		return
 	# init matplotlib
 	plt.style.use('_mpl-gallery')
-	fig, ax = plt.subplots(4, 13, figsize=(105, 25))
+	fig, ax = plt.subplots(1, 13, figsize=(205, 25))
 	# ax.set_title("Histogram of all features")
 	plt.tight_layout(pad=2)
 
