@@ -76,6 +76,15 @@ def percentile(data, percent):
 	else:
 		return sorted_data[int(percentile_idx)]
 
+# https://www.youtube.com/watch?v=_vDRKlTz7yo
+# tail on right = positive skew
+# tail on left = negative skew
+def skew(data):
+	_mean = mean(data)
+	median = percentile(data, 0.5)
+	_stddev = stddev(data)
+	return (3 * (_mean - median)) / _stddev
+
 # match models and return appropriate type
 def match_types(data, type) :
 	if type == "float":
@@ -128,6 +137,7 @@ def describe_data(data) :
 			cprint(f"|_ {colored('50%:', 'green')} {percentile(data[idx], 0.5)}", "red")
 			cprint(f"|_ {colored('75%:', 'green')} {percentile(data[idx], 0.75)}", "red")
 			cprint(f"|_ {colored('Max:', 'green')} {max(data[idx])}", "red")
+			cprint(f"|_ {colored('Skew:', 'green')} {skew(data[idx])}", "red")
 
 			print()
 
