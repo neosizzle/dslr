@@ -192,15 +192,13 @@ def plot_histogram(data, ax):
 			histo_matrix[house_idx][feature_idx].append(feature_value)
 			# print(f"name: {feature_name}, value: {feature_value}")
 	
+	# iterate through histo matrix, and paint the histogram
 	for house_idx, house_data in enumerate(histo_matrix) :
 		house_name = HOUSES[house_idx]
 		house_color = get_house_color(house_name)	
-		
+
 		for feature_idx, feature_data in enumerate(histo_matrix[house_idx]):
 			model_idx = feature_idx + feature_idx_offset
-			feature_name = DATA_MODEL[model_idx]['name']
-			title = f"{house_name}: {feature_name}"
-			ax[feature_idx].set_title(feature_name)
 
 			x_values = np.arange(len(feature_data))
 			y_values = feature_data
@@ -211,13 +209,20 @@ def plot_histogram(data, ax):
 
 			print(f"{house_name}: {DATA_MODEL[model_idx]['name']}")	 
 
+	# set metadata
+	for feature_idx, feature_data in enumerate(histo_matrix[0]):
+		model_idx = feature_idx + feature_idx_offset
+		feature_name = DATA_MODEL[model_idx]['name']
+		ax[feature_idx].set_title(feature_name)
+		ax[feature_idx].legend(HOUSES)
+
 def main():
 	if len(sys.argv) != 2:
 		print("Usage: python describe_csv.py [filename]")
 		return
 	# init matplotlib
 	plt.style.use('_mpl-gallery')
-	fig, ax = plt.subplots(1, 13, figsize=(205, 25))
+	fig, ax = plt.subplots(1, 13, figsize=(205, 15))
 	# ax.set_title("Histogram of all features")
 	plt.tight_layout(pad=2)
 
