@@ -2,20 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
-# https://www.dummies.com/article/academics-the-arts/math/statistics/how-to-calculate-percentiles-in-statistics-169783/
-def percentile(data, percent):
-	sorted_data = sorted(data)
-	total_len = len(data)
-	percentile_idx = percent * total_len
-	
-	# determine if number is whole number
-	if percentile_idx == int(percentile_idx) :
-		data_0 = sorted_data[int(percentile_idx)]
-		data_1 = sorted_data[int(percentile_idx) + 1]
-		return (data_0 + data_1) / 2
-	else:
-		return sorted_data[int(percentile_idx)]
-
 def generate_historgram(data) :
 	# populate bins -  hardcoded as length 10
 	bin_len = 10

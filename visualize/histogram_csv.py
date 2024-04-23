@@ -83,6 +83,39 @@ def percentile(data, percent):
 	else:
 		return sorted_data[int(percentile_idx)]
 
+def generate_historgram(data) :
+	# populate bins -  hardcoded as length 10
+	bin_len = 10
+	bins = []
+	sorted_data = sorted(data)
+	step = (sorted_data[-1] - sorted_data[0]) / bin_len
+	curr_bin = sorted_data[0]
+
+	for i in range(bin_len + 1) :
+		bins.append((curr_bin + (i * step)))
+
+	hist = []
+	for i in range(len(bins) - 1):
+		min = bins[i]
+		max = bins[i + 1]
+		num_elements = len(list(filter(lambda x: x >= min and x < max, sorted_data)))
+		hist.append(num_elements)
+	
+	# fix for last element
+	max = bins[-1]
+	min = bins[-2]
+	hist[-1] = len(list(filter(lambda x: x == max or x > min, sorted_data)))
+
+	return (hist, bins)
+
+def get_centers(data) :
+	res = []
+	for i in range(len(data) - 1):
+		min = data[i]
+		max = data[i + 1]
+		res.append((min + max) / 2)
+	return res
+
 # match models and return appropriate type
 def match_types(data, type) :
 	if type == "float":
@@ -171,7 +204,10 @@ def plot_histogram(data, ax):
 
 			x_values = np.arange(len(feature_data))
 			y_values = feature_data
-			ax[house_idx][feature_idx].bar(x_values, y_values, color=house_color)
+			hist, bins = generate_historgram(y_values)
+			center = get_centers(bins)
+			width = 1 * (bins[1] - bins[0])
+			ax[house_idx][feature_idx].bar(center, hist, width=width, color=house_color)
 
 			print(f"{house_name}: {DATA_MODEL[model_idx]['name']}")	 
 
