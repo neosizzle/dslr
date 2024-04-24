@@ -88,18 +88,13 @@ def skew(data):
 # match models and return appropriate type
 def match_types(data, type) :
 	if type == "float":
-		try:
-			return float(data)
-		except:
-			return 0.0
+		return float(data)
 	if type == "int":
-		try:
-			return int(data)
-		except:
-			return 0
+		return int(data)
 	return data
 
 # read and parse csv
+# [[indices], [houses], [name] ... ]
 def read_csv(filepath) :
 	res = []
 	for type in DATA_MODEL :
@@ -114,13 +109,21 @@ def read_csv(filepath) :
 			skip_first_line = False
 			continue
 
+		data_row = []
 		for model in DATA_MODEL:
 			idx = model["idx"]
 			type = model["type"]
-			data = match_types(line[idx], type)
-			res[idx].append(data)
+			try:
+				data = match_types(line[idx], type)
+				data_row.append(data)
+			except:
+				continue
 
+		if len(data_row) == len(DATA_MODEL):
+			for idx, col in enumerate(data_row):
+				res[idx].append(col)				
 	return res
+
 
 def describe_data(data) :
 	for model in DATA_MODEL:

@@ -119,15 +119,9 @@ def get_centers(data) :
 # match models and return appropriate type
 def match_types(data, type) :
 	if type == "float":
-		try:
-			return float(data)
-		except:
-			return 0.0
+		return float(data)
 	if type == "int":
-		try:
-			return int(data)
-		except:
-			return 0
+		return int(data)
 	return data
 
 def get_house_color(house) :
@@ -156,12 +150,19 @@ def read_csv(filepath) :
 			skip_first_line = False
 			continue
 
+		data_row = []
 		for model in DATA_MODEL:
 			idx = model["idx"]
 			type = model["type"]
-			data = match_types(line[idx], type)
-			res[idx].append(data)
+			try:
+				data = match_types(line[idx], type)
+				data_row.append(data)
+			except:
+				continue
 
+		if len(data_row) == len(DATA_MODEL):
+			for idx, col in enumerate(data_row):
+				res[idx].append(col)				
 	return res
 
 def plot_histogram(data, ax):
@@ -175,18 +176,18 @@ def plot_histogram(data, ax):
 			histo_matrix[idx].append([])
 
 	# iterate through all rows of data via idx, this will populate histo_matrix
-	for row_idx in data[0]:
+	for iter_idx, row_idx in enumerate(data[0]):
 		# if row_idx == 5:
 		# 	break
 
 		# get house
-		house = data[1][row_idx]
+		house = data[1][iter_idx]
 
 		# iterate through all enumerable features
 		for model in DATA_MODEL :
 			if model["type"] != "float" :
 				continue
-			feature_value = data[model["idx"]][row_idx]
+			feature_value = data[model["idx"]][iter_idx]
 			house_idx = HOUSES.index(house)
 			feature_idx = model["idx"] - feature_idx_offset
 			histo_matrix[house_idx][feature_idx].append(feature_value)
