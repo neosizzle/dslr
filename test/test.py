@@ -152,6 +152,9 @@ def gradient_descent(init_m, init_c, steps, learning_rate, x_values, y_values):
 	return (init_m, init_c)
 	
 
+def normalize_value(data, min, max):
+	 return ((data - min) / (max - min))
+
 def normalize_data(data) :
 	min_x = min(data)
 	max_x = max(data)
@@ -222,33 +225,46 @@ def main():
 	data_matrix = generate_data_matrix(categories, ['height', 'midscore'], data)
 
 	index = 0
+	weights = {}
 	for key, plot_data in data_matrix.items():
 		# logistic regression
-		(slope, intercept) = gradient_descent_batch (1, 0, 0.5, plot_data[0], plot_data[1])
+		(slope, intercept) = gradient_descent_range(1, 0, 0.5, plot_data[0], plot_data[1])
 		print(f"({slope}, {intercept})")
 
 		x_regres, y_regres = generate_regression_line(slope, intercept, 0, 1, 50)
 		ax[index].scatter(plot_data[0], plot_data[1], alpha=0.6)
 		ax[index].plot(x_regres, y_regres, 'c', alpha=0.5)
 		ax[index].set_title(key)
+		
+		weights[key] = [slope, intercept, plot_data[2], plot_data[3]]
 		index += 1
-	# logistic regression
-	# (slope, intercept) = gradient_descent_range(1, 0, 0.5, x_values, y_values)
-	# print(f"({slope}, {intercept})")
-	# print(sigmoid_reverse(linear(slope, 0, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.1, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.2, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.3, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.4, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.5, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.6, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.7, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.8, intercept)))
-	# print(sigmoid_reverse(linear(slope, 0.9, intercept)))
-	# print(sigmoid_reverse(linear(slope, 1, intercept)))
-	# x_regres, y_regres = generate_regression_line(slope, intercept, 0, 1, 50)
-	# ax[0].plot(x_regres, y_regres, 'c', alpha=0.5)
 
+	to_predict = Data(None, 13, 69, 200)
+	
+	probabilities = {}
+	for category in categories :
+		probabilities[category] = 1
+
+	for key, weight_data in weights.items():
+		slope = weight_data[0]
+		intercept = weight_data[1]
+		feature = key.split("_")[1]
+		category = key.split("_")[0]
+		
+		normalied_x_value = normalize_value(to_predict.get_feature(feature), weight_data[2], weight_data[3])
+		probability = (sigmoid_reverse(linear(slope, normalied_x_value, intercept)))
+		probabilities[category] *= probability
+
+		# print(f"{key}: {probability}")
+
+
+	higest_likelihood = 0
+	res = "HUH"
+	for category in categories :
+		if higest_likelihood < probabilities[category]:
+			higest_likelihood = probabilities[category]
+			res = category
+	print(f"Predicted : {res}")
 
 	# export matplotlib as png
 	plt.savefig(f"{sys.argv[0]}.png")
