@@ -73,3 +73,27 @@ def preprocess_data(data):
 
 			if row.get_feature(feature) == None :
 				row.set_feature(feature, mean_values[model_idx])
+
+def normalize_data(data) :
+	min_x = min(data)
+	max_x = max(data)
+	return list(map(lambda x : (x - min_x) / (max_x - min_x) , data))
+
+# generate data matrix for multiple binary logistic regression
+# {
+# 	"[category]_[featurename]": [x_values, y_values, og_x_min, og_x_max],
+# 	"[category2]_[featurename2]": [x_values, y_values, og_x_min, og_x_max],
+# }
+def generate_data_matrix(categories, features, data):
+	res = {}
+	for category in categories:
+		for feature in features:
+			key = f"{category}_{feature}"
+			feature_values = list(map(lambda x: x.get_feature(feature), data))
+			# todo check for none here
+			min_features = min(feature_values)
+			max_features = max(feature_values)
+			x_values = normalize_data(feature_values)
+			y_values = list(map(lambda x: 1 if x.get_feature('Hogwarts House') == category else 0, data))
+			res[key] = [x_values, y_values, min_features, max_features]
+	return res

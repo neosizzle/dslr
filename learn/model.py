@@ -5,6 +5,16 @@ HOUSES = [
 	"Hufflepuff",
 ]
 
+SELECTED_FEATURES = [
+	"Astronomy",
+	"Divination",
+	"Muggle Studies",
+	"History of Magic",
+	"Transfiguration",
+	"Charms",
+	"Flying",
+]
+
 def get_house_color(house) :
 	if house == "Ravenclaw":
 		return "blue"
