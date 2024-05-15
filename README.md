@@ -5,6 +5,12 @@ We are given a training dataset of students scores in multiple subjects as well 
 
 It is assumed to have basic understanding of linear regression at this point.
 
+> Learning materials
+> [Intro to LR](https://www.youtube.com/watch?v=U1omz0B9FTw&pp=ygUfbG9naXN0aWMgcmVncmVzc2lvbiBjb2RpbmcgbGFuZQ%3D%3D)
+> [Intro to LR](https://www.youtube.com/watch?v=yIYKR4sgzI8&pp=ygUdc3RhdHF1ZXN0IGxvZ2lzdGljIHJlZ3Jlc3Npb24%3D)
+> [Logistic regression with gradient descent](https://www.youtube.com/watch?v=t6MVuMavbBY&pp=ygUfbG9naXN0aWMgcmVncmVzc2lvbiBjb2RpbmcgbGFuZQ%3D%3D)
+> [Derivation of loss function](https://www.youtube.com/watch?v=0VMK18nphpg&pp=ygUoZGVyaXZlIGxvZ2lzdGljIHJlZ3Jlc3Npb24gbG9zcyBmdW5jdGlvbg%3D%3D)
+
 # Maximum likelihood for normal distribution
 
 $$
@@ -29,8 +35,6 @@ P\left( x\right) =\dfrac{1}{\sqrt{2\pi \sigma ^{2}}}e^{-\left( x-\mu\right) ^{2}
 $$
 
 to calculate all the probabilities for $x$, we can use the product on the return values of the $P\left( x;\mu ,\sigma \right)$ for all $x$.
-
-[insert maximize gaussian here...]
 
 $$
 P\left( x;\mu,\sigma \right) = P\left( x_{0};\mu,\sigma \right) \times P\left( x_{1};\mu,\sigma \right)  \times \ldots P\left( x_{n};\mu,\sigma \right) 
@@ -83,6 +87,7 @@ $$
 Unlike linear regression, logistic regression predicts wether something is **True** or **false** (1 or 0) and the line we fit is an 'S' shape like so
 
 ![image](https://hackmd.io/_uploads/B1nhx4e7A.png)
+
 If we want to predict new data, the line will be mapped to the probability of the data being classified as true. This can be used for calssification
 
 Since logistic regression does not have least squares or R-sqaured, we will use the maximum likelihood of all ovserved data to fit the regression line
@@ -145,7 +150,7 @@ $$
 
 > Powers $1-y$ and $y$ will cancl out each other (become 0) based on the actual value of $y$
 
-With this, we can also define the cost function for the 2 possible $y$ valeus: $-\log _{e}\left( h_{\theta }\left( x\right) \right)$ if $y$ = 1 and $\log _{e}\left( 1 - h_{\theta }\left( x\right) \right)$ if $y$ = 0.
+With this, we can also define the cost function for the 2 possible $y$ values: $-\log _{e}\left( h_{\theta }\left( x\right) \right)$ if $y$ = 1 and $\log _{e}\left( 1 - h_{\theta }\left( x\right) \right)$ if $y$ = 0.
 
 
 ![image](https://hackmd.io/_uploads/S1uSySlmR.png)
