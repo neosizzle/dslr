@@ -95,7 +95,7 @@ Since logistic regression does not have least squares or R-sqaured, we will use 
 # Logistic regression coefficients
 Coefficients in linear regression are the $m$ and $c$ values. They are constants that defined the regression line.
 
-For logistic regression, we also have $m$ and $c$ as our coefficients. Although the regression line itself isnt a straight line, we are able to apply the log of odds ($log(1/1-p)$) function to all values of $y$ to get a straight line.
+For logistic regression, we also have $m$ and $c$ as our coefficients. Although the regression line itself isnt a straight line, we are able to apply the log of odds ( $log(1/1-p)$ ) function to all values of $y$ to get a straight line.
 
 ![image](https://hackmd.io/_uploads/S1E-Q4g7R.png)
 
@@ -150,7 +150,7 @@ $$
 
 > Powers $1-y$ and $y$ will cancl out each other (become 0) based on the actual value of $y$
 
-With this, we can also define the cost function for the 2 possible $y$ values: $-\log _{e}\left( h_{\theta }\left( x\right) \right)$ if $y$ = 1 and $\log _{e}\left( 1 - h_{\theta }\left( x\right) \right)$ if $y$ = 0.
+With this, we can also define the cost function for the 2 possible $y$ values $-\log \left( h_{\theta }\left( x\right) \right)$ if $y$ = 1 and $\log{e}\left( 1 - h_{\theta }\left( x\right) \right)$ if $y$ = 0.
 
 
 ![image](https://hackmd.io/_uploads/S1uSySlmR.png)
@@ -164,12 +164,13 @@ $$
 For $m$ observation, we can calculate the cost as
 
 $$
-cost = -\dfrac{1}{m}\sum ^{m}_{i=1}\left[ cost(h_{\theta }\left( x_i\right) ,y_i)\right] 
+cost = -\dfrac{1}{m}\sum ^{m}_{i=1}\left[ cost(h\left( x_i\right) ,y_i)\right] 
 $$
 
 Since our coefficients will be $m$ and $c$ for the straight line function, we will need to get its partial derivatives from the cost function $\dfrac{\partial }{\partial m}$ and $\dfrac{\partial }{\partial c}$.
 
 We first declare some variables:
+
 $$
 \sigma \left( x\right) =\dfrac{1}{1+e^{-x}}
 $$
@@ -366,11 +367,13 @@ Now that we have established some baseline rules (no selecting homogeneous featu
 
 
 Here is an example of bad features to select (Arithmancy and potions):
+
 ![image](https://hackmd.io/_uploads/B1baVcbmC.png)
 
 As you can see (from the horizontal axis - arithmancy), there is no clear classification of the features values. If we use this feature, then all values will have the same probability of being asssigned to any category. If we look at the vertical axis (potions), the same case applies as well.
 
 Here is an example of a good feature being displayed:
+
 ![image](https://hackmd.io/_uploads/ByRPB5WXR.png)
 
 The horizontal axis (Arithmancy) still remains a bad feature for the reasons above, but we can see some clustering now from the vertical axis (Charms). Right off the bat, we notice a high probability of getting classified as **Ravenclaw** when the Charms score is more than -240. Hence this feature will be used in the logistic regression model.
